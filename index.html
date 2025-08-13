@@ -6,24 +6,36 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header id="status-bar">rstarks@system:~$ | status: ACTIVE | entropy: 84%</header>
+  <header id="status-bar">
+    <button id="side-panel-button" aria-label="Toggle side panel">
+      <span class="cyber-bar"></span>
+      <span class="cyber-bar"></span>
+      <span class="cyber-bar"></span>
+    </button>
+    rstarks@system:~$ | status: ACTIVE | entropy: 84%
+  </header>
 
   <div id="main-container">
     <aside id="side-panel">
+      <div class="mini-profile">
+        <div class="avatar-glitch">
+          <img src="https://avatars.githubusercontent.com/u/9919?v=4" alt="Avatar" />
+          <div class="scanline-overlay"></div>
+        </div>
+        <div class="profile-meta">
+          <div class="handle">@rstarks</div>
+          <div class="about">Cyberpunk dev. Glitching the system. <span class="glitch-txt">[ anomaly.001 ]</span></div>
+        </div>
+      </div>
       <h3>System Feed</h3>
       <div id="log-feed"></div>
-
-      <h3>Neural Load</h3>
-      <div id="cpu-bar">🧠 0%</div>
-
-      <h3>Glitch Trace</h3>
-      <div id="glitch-status">🟡 Tracking anomalies...</div>
     </aside>
+    
 
     <main id="main-terminal">
       <div id="terminal">
         <div id="output"></div>
-        <input type="text" id="input" autofocus />
+        <input type="text" id="input" autofocus placeholder="Type Here" />
       </div>
     </main>
 
@@ -34,6 +46,7 @@
       </div>
     </div>
   </div>
+
 
   <script src="script.js"></script>
 </body>

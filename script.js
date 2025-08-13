@@ -176,7 +176,7 @@ const commands = {
       {
         title: "glitch-lab",
         description: "A web experiment to visualize data distortion and memory fragmentation.",
-        tech: "React • WebGL • GSAP"
+        tech: "JS • WebGL • GSAP"
       },
       {
         title: "mindsim.html",
@@ -185,17 +185,17 @@ const commands = {
       },
       {
         title: "Discord Bot",
-        description: "A fully functional dicord bot for personal use.",
+        description: "A fully functional discord bot for personal use.",
         tech: "Pycord • Python • NiceBots"
       },
       {
-        title: "Game?",
+        title: "Play With Me",
         description: "A game related with chemistry for a TUBITAK 4006 project.",
         tech: "Unity • C# • 2D"
       },
       {
         title: "Backdoor",
-        description: "A backdoor (for educational purposes) has download upload feature.",
+        description: "Backdoor with download/upload feature.",
         tech: "Sockets • Python • Bash"
       }
     ];
@@ -250,10 +250,10 @@ function print(text) {
   if (text instanceof HTMLElement) {
     line.appendChild(text);
   } else {
-    // Eğer text içinde \n varsa, <br> ile değiştir
     line.innerHTML = text.replace(/\n/g, "<br>");
   }
-  output.appendChild(line);
+  output.appendChild(line); // Add at the bottom like a real terminal
+  output.scrollTop = output.scrollHeight; // Auto-scroll to bottom
 }
 
 function executeCommand(cmd) {
@@ -286,41 +286,27 @@ input.addEventListener("keydown", function (e) {
   }
 });
 
-const logs = [
-  "[core] AI routines engaged.",
-  "[trace] connection from unknown node",
-  "[entropy] value fluctuating...",
-  "[sys] memory pressure: OK"
-];
+
 
 setInterval(() => {
   const line = document.createElement("div");
   if (ai_help > 2) {
     line.textContent = `[SYSTEM] You seem... impaired.\n [SYSTEM] suggesting: 'help'`;
     ai_help = 0;
-  } else {
-    line.textContent = logs[Math.floor(Math.random() * logs.length)];
   }
-  logFeed.appendChild(line);
-  if (logFeed.children.length > 30) logFeed.removeChild(logFeed.firstChild);
 }, 3000);
-
-setInterval(() => {
-  const level = Math.floor(50 + Math.random() * 50);
-  document.getElementById("cpu-bar").textContent = `🧠 ${level}% load`;
-}, 4000);
 
 function hi() {
   const hi = document.createElement('div');
   hi.className = 'cyber-greeting';
   hi.innerHTML = `
     <div class="greeting-content">
-      <h1 class="glitch" data-text="WELCOME">Welcome</h1>
+      <h1 class="glitch" data-text="GREETINGS">GREETINGS</h1>
       <div class="greeting-subtitle">
         <span class="scanline"></span>
-        <h3>Just Chill</h3>
+        <h3>This is an interactive portfolio.</h3>
         <p>> User: ${navigator.userAgent.split(' ')[0]}</p>
-        <p>> Type <span class="blink">help</span> to initialize</p>
+        <p>> Type <span class="blink">help</span> to explore</p>
       </div>
     </div>
     <div class="greeting-close">✖</div>
@@ -440,13 +426,12 @@ function hi() {
   container.appendChild(histyle);
   container.appendChild(hi);
 
-  // Add close functionality
+  
   hi.querySelector('.greeting-close').addEventListener('click', () => {
     hi.style.animation = 'fadeOut 0.5s ease-out forwards';
     setTimeout(() => container.remove(), 500);
   });
 
-  // Add fadeOut animation when closing
   const fadeOutStyle = document.createElement('style');
   fadeOutStyle.textContent = `
     @keyframes fadeOut {
@@ -459,15 +444,78 @@ function hi() {
   return container;
 }
 
-// Enhanced initialization
+
 document.addEventListener('DOMContentLoaded', () => {
   const greeting = hi();
   document.body.appendChild(greeting);
   
-  // Auto-close after 10 seconds if not closed manually
+
   setTimeout(() => {
     if (document.body.contains(greeting)) {
       greeting.querySelector('.greeting-close').click();
     }
   }, 10000);
 });
+
+const sidePanelBtn = document.getElementById("side-panel-button");
+sidePanelBtn.addEventListener('click', function() {
+  const mainContainer = document.getElementById("main-container");
+  mainContainer.classList.toggle("side-panel-hidden");
+  sidePanelBtn.classList.toggle("open");
+});
+
+
+  function appendToFeed(text) {
+    const feed = document.getElementById("log-feed"); // feed'in id'si buyduysa
+    if (feed) {
+      const line = document.createElement("div");
+      line.textContent = text;
+      feed.appendChild(line);
+    }
+  }
+
+  fetch("https://ipapi.co/json/")
+    .then(response => response.json())
+    .then(data => {
+      const country = data.country_name || "Unknown Country";
+
+      appendToFeed(`🌐 Location: ${country}`);
+    })
+    .catch(error => {
+      appendToFeed(`❌ Location info failed.`);
+    });
+
+  window.addEventListener("load", () => {
+    const time = performance.now().toFixed(2);
+    appendToFeed(`⚡ Page loaded in ${time}ms`);
+  });
+
+  function getSimpleBrowser() {
+  const ua = navigator.userAgent;
+
+  if (ua.includes("Chrome") && !ua.includes("Edg/")) {
+    return "Chrome";
+  } else if (ua.includes("Firefox")) {
+    return "Firefox";
+  } else if (ua.includes("Safari") && !ua.includes("Chrome")) {
+    return "Safari";
+  } else if (ua.includes("Edg/")) {
+    return "Edge";
+  } else {
+    return "Unknown Browser";
+  }
+}
+
+function getOS() {
+  const ua = navigator.userAgent;
+
+  if (ua.includes("Windows NT 10.0")) return "Windows 10";
+  if (ua.includes("Windows NT 11.0")) return "Windows 11";
+  if (ua.includes("Mac OS X")) return "macOS";
+  if (ua.includes("Linux")) return "Linux";
+  if (ua.includes("Android")) return "Android";
+  if (ua.includes("iPhone")) return "iOS";
+
+  return "Unknown OS";
+}
+appendToFeed(`🧭 Browser: ${getSimpleBrowser()} (${getOS()})`);
